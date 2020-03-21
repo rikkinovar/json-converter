@@ -32,10 +32,7 @@
         fr.onload = function(e) {
           console.log(e);
           var result = JSON.parse(e.target.result);
-          // var formatted = JSON.stringify(result, null, 2);
-          // document.getElementById("result").value = formatted;
           var cek = generate(result);
-          // exportCSVFile(headers, cek, "Cek convert"); // call the exportCSVFile() function to process the JSON and trigger the downloa
           download(cek);
         };
 
