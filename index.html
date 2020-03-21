@@ -1,0 +1,339 @@
+<html>
+  <head>
+    <title>JSON converter</title>
+    <style>
+      #result {
+        display: block;
+        width: 400px;
+        height: 200px;
+      }
+
+      #import {
+        margin: 10px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <input type="file" id="selectFiles" value="Import" /><br />
+    <button id="import">Download</button>
+    <!-- <textarea id="result"> </textarea> -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+    <script>
+      document.getElementById("import").onclick = function() {
+        var files = document.getElementById("selectFiles").files;
+        console.log(files);
+        if (files.length <= 0) {
+          return false;
+        }
+
+        var fr = new FileReader();
+
+        fr.onload = function(e) {
+          console.log(e);
+          var result = JSON.parse(e.target.result);
+          // var formatted = JSON.stringify(result, null, 2);
+          // document.getElementById("result").value = formatted;
+          var cek = generate(result);
+          // exportCSVFile(headers, cek, "Cek convert"); // call the exportCSVFile() function to process the JSON and trigger the downloa
+          download(cek);
+        };
+
+        fr.readAsText(files.item(0));
+      };
+    </script>
+    <script>
+      function generate(data) {
+        var dataUser = [];
+
+        for (var key in data) {
+          if (data.hasOwnProperty(key)) {
+            var userMetaData = data[key].user_meta;
+
+            var fullName;
+            var birthPlace;
+            var birthDate;
+            var gender;
+            var phone;
+            var address;
+            var city;
+            var province;
+            var postalCode;
+            var country;
+            var elementarySchool;
+            var elementarySchoolCity;
+            var jhs;
+            var jhsCity;
+            var shs;
+            var shsCity;
+            var university;
+            var universityCity;
+            var originAddress;
+            var originProvince;
+            var originCity;
+            var isPapuan;
+            var isLiveInPapua;
+            var titleStory;
+            var ideaStory;
+            var portfolioLink1;
+            var portfolioLink2;
+            var portfolioLink3;
+            var curriculumVitae;
+            var videoProfile;
+            var isValidInformation;
+            var isAgree;
+
+            for (var xKey in userMetaData) {
+              if (userMetaData.hasOwnProperty(xKey)) {
+                switch (xKey) {
+                  case "pie_text_6":
+                    fullName = userMetaData[xKey][0];
+                    break;
+                  case "pie_text_4":
+                    birthPlace = userMetaData[xKey][0];
+                    break;
+                  case "pie_date_7":
+                    var formatted = extractAllText(userMetaData[xKey][0]);
+                    birthDate =
+                      formatted[2] + "-" + formatted[4] + "-" + formatted[6];
+                    break;
+                  case "pie_dropdown_8":
+                    var formattedGender = extractFirstText(
+                      userMetaData[xKey][0]
+                    );
+                    gender = formattedGender;
+                    break;
+                  case "pie_text_41":
+                    phone = userMetaData[xKey][0];
+                    break;
+                  case "pie_text_43":
+                    address = userMetaData[xKey][0];
+                    break;
+                  case "pie_text_44":
+                    city = userMetaData[xKey][0];
+                    break;
+                  case "pie_text_45":
+                    province = userMetaData[xKey][0];
+                    break;
+                  case "pie_text_46":
+                    country = userMetaData[xKey][0];
+                    break;
+                  case "pie_text_47":
+                    postalCode = userMetaData[xKey][0];
+                    break;
+                  case "pie_text_14":
+                    elementarySchool = userMetaData[xKey][0];
+                    break;
+                  case "pie_text_16":
+                    elementarySchoolCity = userMetaData[xKey][0];
+                    break;
+                  case "pie_text_18":
+                    jhs = userMetaData[xKey][0];
+                    break;
+                  case "pie_text_19":
+                    jhsCity = userMetaData[xKey][0];
+                    break;
+                  case "pie_text_20":
+                    shs = userMetaData[xKey][0];
+                    break;
+                  case "pie_text_21":
+                    shsCity = userMetaData[xKey][0];
+                    break;
+                  case "pie_text_22":
+                    university = userMetaData[xKey][0];
+                    break;
+                  case "pie_text_23":
+                    universityCity = userMetaData[xKey][0];
+                    break;
+                  case "pie_text_25":
+                    originAddress = userMetaData[xKey][0];
+                    break;
+                  case "pie_dropdown_26":
+                    var formattedProvince = extractFirstText(
+                      userMetaData[xKey][0]
+                    );
+                    originProvince = formattedProvince;
+                    break;
+                  case "pie_text_28":
+                    originCity = userMetaData[xKey][0];
+                    break;
+                  case "pie_radio_29":
+                    var formatted = extractFirstText(userMetaData[xKey][0]);
+                    isPapuan = formatted;
+                    break;
+                  case "pie_radio_30":
+                    var formatted = extractFirstText(userMetaData[xKey][0]);
+                    isLiveInPapua = formatted;
+                    break;
+                  case "pie_text_32":
+                    titleStory = userMetaData[xKey][0];
+                    break;
+                  case "pie_textarea_34":
+                    ideaStory = userMetaData[xKey][0];
+                    break;
+                  case "pie_text_35":
+                    portfolioLink1 = userMetaData[xKey][0];
+                    break;
+                  case "pie_text_48":
+                    portfolioLink2 = userMetaData[xKey][0];
+                    break;
+                  case "pie_text_49":
+                    portfolioLink3 = userMetaData[xKey][0];
+                    break;
+                  case "pie_upload_3":
+                    curriculumVitae = userMetaData[xKey][0];
+                    break;
+                  case "pie_upload_36":
+                    videoProfile = userMetaData[xKey][0];
+                    break;
+                  case "pie_checkbox_39":
+                    var formatted = extractFirstText(userMetaData[xKey][0]);
+                    isValidInformation = formatted;
+                    break;
+                  case "pie_checkbox_40":
+                    var formatted = extractFirstText(userMetaData[xKey][0]);
+                    isAgree = formatted;
+                    break;
+                  default:
+                    break;
+                }
+              }
+            }
+            var filledData = {
+              fullName,
+              birthPlace,
+              birthDate,
+              gender,
+              phone,
+              address,
+              city,
+              province,
+              postalCode,
+              country,
+              elementarySchool,
+              elementarySchoolCity,
+              jhs,
+              jhsCity,
+              shs,
+              shsCity,
+              university,
+              universityCity,
+              originAddress,
+              originProvince,
+              originCity,
+              isPapuan,
+              isLiveInPapua,
+              titleStory,
+              ideaStory,
+              portfolioLink1,
+              portfolioLink2,
+              portfolioLink3,
+              curriculumVitae,
+              videoProfile,
+              isValidInformation,
+              isAgree
+            };
+
+            dataUser.push(filledData);
+          }
+        }
+        return dataUser;
+      }
+    </script>
+    <script>
+      function extractAllText(str) {
+        const re = /"(.*?)"/g;
+        const result = [];
+        let current;
+        while ((current = re.exec(str))) {
+          result.push(current.pop());
+        }
+        return result.length > 0 ? result : [str];
+      }
+      function extractFirstText(str) {
+        if (str) {
+          const matches = str.match(/"(.*?)"/);
+          return matches ? matches[1] : str;
+        } else {
+          return "";
+        }
+      }
+      function download(data) {
+        var createXLSLFormatObj = [];
+
+        /* XLS Head Columns */
+        var xlsHeader = [
+          "Nama Lengkap",
+          "Tempat Lahir",
+          "Tanggal Lahir",
+          "Jenis Kelamin",
+          "No Handphone",
+          "Alamat Saat ini",
+          "Kota Saat Ini",
+          "Provinsi Saat ini",
+          "Kode Pos Saat Ini",
+          "Negara Saat Ini",
+          "Nama SD",
+          "Kota SD",
+          "Nama SMP",
+          "Kota SMP",
+          "Nama SMA",
+          "Kota SMA",
+          "Nama Universitas",
+          "Kota Universitas",
+          "Alamat Asal",
+          "Provinsi Asal",
+          "Kota Asal",
+          "Keturunan Papua",
+          "Tinggal di Papua",
+          "Judul Cerita",
+          "Ide Cerita",
+          "Portfolio Link 1",
+          "Portfolio Link 2",
+          "Portfolio Link 3",
+          "Curriculum Vitae",
+          "Video Profile",
+          "Informasi Sudah Benar",
+          "Setuju Ide Cerita Di Kompilasi"
+        ];
+
+        /* XLS Rows Data */
+        var xlsRows = data;
+
+        createXLSLFormatObj.push(xlsHeader);
+        $.each(xlsRows, function(index, value) {
+          var innerRowData = [];
+          $("tbody").append(
+            "<tr><td>" +
+              value.EmployeeID +
+              "</td><td>" +
+              value.FullName +
+              "</td></tr>"
+          );
+          $.each(value, function(ind, val) {
+            innerRowData.push(val);
+          });
+          createXLSLFormatObj.push(innerRowData);
+        });
+
+        /* File Name */
+        var filename = "jendela_papua.xlsx";
+
+        /* Sheet Name */
+        var ws_name = "Sheet 1";
+
+        if (typeof console !== "undefined") console.log(new Date());
+        var wb = XLSX.utils.book_new(),
+          ws = XLSX.utils.aoa_to_sheet(createXLSLFormatObj);
+
+        /* Add worksheet to workbook */
+        XLSX.utils.book_append_sheet(wb, ws, ws_name);
+
+        /* Write workbook and Download */
+        if (typeof console !== "undefined") console.log(new Date());
+        XLSX.writeFile(wb, filename);
+        if (typeof console !== "undefined") console.log(new Date());
+      }
+    </script>
+  </body>
+</html>
